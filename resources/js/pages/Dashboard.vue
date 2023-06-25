@@ -3,5 +3,5 @@ import Main from '../layout/Main.vue';
 </script>
 
 <template>
-    Home Landing Page
+    Dashboard Component
 </template>
