@@ -1,7 +1,0 @@
-<script setup>
-import Main from '../layout/Main.vue';
-</script>
-
-<template>
-    Home Landing Page
-</template>

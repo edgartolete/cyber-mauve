@@ -7,25 +7,28 @@ import Clients from '../pages/Clients.vue';
 import Dashboard from '../pages/Dashboard.vue';
 import Employees from '../pages/Employees.vue';
 import { RouterLink } from 'vue-router';
-import {useUserStore} from '../stores/userStore.js'
+import { onMounted } from 'vue'
+import { useSessionStore } from '../stores/sessionStore.js'
 
-let user = useUserStore()
+let session = useSessionStore()
 
 const drawer = ref(true);
 const rail = ref(false)
+
 let currentPage = ref('dashboard');
 
 
 function changeContent(value){
     currentPage.value = value;
-    console.log(currentPage)
+    session.changeToken();
 }
+
 </script>
 
 <template>
     <v-card>
         <v-layout>
-            <v-app-bar :title="user.company"></v-app-bar>
+            <v-app-bar :title="session.company"></v-app-bar>
             <v-navigation-drawer
                 v-model="drawer"
                 :rail="rail"
@@ -34,8 +37,8 @@ function changeContent(value){
                 class="pt-2"
                 >
                 <v-list-item
-                prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg"
-                :title="user.name"
+                :prepend-avatar="session.avatar"
+                :title="session.name"
                 @click="rail = false"
                 nav>
                 <template v-slot:append>
@@ -57,7 +60,7 @@ function changeContent(value){
                 <v-list-item prepend-icon="mdi-cog-outline" title="Manage Accounts" value="accounts" @click="changeContent('accounts')"></v-list-item>
                 <v-list-item prepend-icon="mdi-account" title="My Account" value="account" @click="changeContent('account')"></v-list-item>
                 <RouterLink to="/login"  style="text-decoration: none; color: inherit;" > 
-                    <v-list-item prepend-icon="mdi-logout" title="Logout" value="logout" ></v-list-item>
+                    <v-list-item prepend-icon="mdi-logout" title="Logout" value="logout" @click="session.logOut()"></v-list-item>
                 </RouterLink>
                 </v-list>
             </v-navigation-drawer>
@@ -68,6 +71,7 @@ function changeContent(value){
                 <Billings v-if="currentPage == 'billings'" />
                 <ManageAccounts v-if="currentPage == 'accounts'"/>
                 <MyAccount v-if="currentPage == 'account'"/>
+                {{ session.token }}
             </v-main>
         </v-layout>
       </v-card>
