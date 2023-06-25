@@ -1,6 +1,7 @@
 <script setup>
+import Main from '../layout/Main.vue';
 </script>
 
 <template>
-    <h1> Profile </h1>
+Clients
 </template>
